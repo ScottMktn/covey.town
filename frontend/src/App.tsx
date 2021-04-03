@@ -2,7 +2,7 @@ import React, {
   Dispatch, SetStateAction, useCallback, useEffect, useMemo, useReducer, useState,
 } from 'react';
 import './App.css';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { ChakraProvider } from '@chakra-ui/react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -27,7 +27,7 @@ import TownsServiceClient, { TownJoinResponse } from './classes/TownsServiceClie
 import Video from './classes/Video/Video';
 
 type CoveyAppUpdate =
-  | { action: 'doConnect'; data: { userName: string, townFriendlyName: string, townID: string,townIsPubliclyListed:boolean, sessionToken: string, myPlayerID: string, socket: Socket, players: Player[], emitMovement: (location: UserLocation) => void } }
+  | { action: 'doConnect'; data: { userName: string, townFriendlyName: string, townID: string, townIsPubliclyListed: boolean, sessionToken: string, myPlayerID: string, socket: Socket, players: Player[], emitMovement: (location: UserLocation) => void } }
   | { action: 'addPlayer'; player: Player }
   | { action: 'playerMoved'; player: Player }
   | { action: 'playerDisconnect'; player: Player }
@@ -261,9 +261,17 @@ export default function AppStateWrapper(): JSX.Element {
     <BrowserRouter>
       <ChakraProvider>
         <MuiThemeProvider theme={theme('rgb(185, 37, 0)')}>
-          <AppStateProvider preferredMode="fullwidth" highlightedProfiles={[]}>
-            <EmbeddedTwilioAppWrapper />
-          </AppStateProvider>
+          <Route exact path="/">
+            <h1>Hello Login</h1>
+          </Route>
+          <Route exact path="/register">
+            <h1>Hello Register</h1>
+          </Route>
+          <Route exact path="/home">
+            <AppStateProvider preferredMode="fullwidth" highlightedProfiles={[]}>
+              <EmbeddedTwilioAppWrapper />
+            </AppStateProvider>
+          </Route>
         </MuiThemeProvider>
       </ChakraProvider>
     </BrowserRouter>
