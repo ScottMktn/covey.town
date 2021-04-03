@@ -151,12 +151,6 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
               />
             </FormControl>
           </Box>
-          {/* CUSTOM CODE BELOW */}
-          {/* <Box p="4" borderWidth="1px" borderRadius="lg">
-            <Heading as="h2" size="lg">Login</Heading>
-          </Box> */}
-
-          {/* CUSTOM CODE ABOVE */}
           <Box borderWidth="1px" borderRadius="lg">
             <Heading p="4" as="h2" size="lg">Create a New Town</Heading>
             <Flex p="4">
