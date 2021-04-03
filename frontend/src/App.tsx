@@ -248,10 +248,20 @@ function EmbeddedTwilioAppWrapper() {
   const connectionOptions = useConnectionOptions();
   return (
     <UnsupportedBrowserWarning>
+      <div>
+        <Route exact path="/">
+            <h1>Hello Login</h1>
+          </Route>
+          <Route exact path="/register">
+            <h1>Hello Register</h1>
+          </Route>
+          <Route exact path="/home">
       <VideoProvider options={connectionOptions} onError={setError} onDisconnect={onDisconnect}>
         <ErrorDialog dismissError={() => setError(null)} error={error} />
         <App setOnDisconnect={setOnDisconnect} />
       </VideoProvider>
+      </Route>
+      </div>
     </UnsupportedBrowserWarning>
   );
 }
@@ -261,17 +271,9 @@ export default function AppStateWrapper(): JSX.Element {
     <BrowserRouter>
       <ChakraProvider>
         <MuiThemeProvider theme={theme('rgb(185, 37, 0)')}>
-          <Route exact path="/">
-            <h1>Hello Login</h1>
-          </Route>
-          <Route exact path="/register">
-            <h1>Hello Register</h1>
-          </Route>
-          <Route exact path="/home">
             <AppStateProvider preferredMode="fullwidth" highlightedProfiles={[]}>
               <EmbeddedTwilioAppWrapper />
             </AppStateProvider>
-          </Route>
         </MuiThemeProvider>
       </ChakraProvider>
     </BrowserRouter>
