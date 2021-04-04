@@ -17,8 +17,14 @@ import {
   Th,
   Thead,
   Tr,
-  useToast
+  useToast,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from '@chakra-ui/react';
+import { nanoid } from 'nanoid';
 import useVideoContext from '../VideoCall/VideoFrontend/hooks/useVideoContext/useVideoContext';
 import Video from '../../classes/Video/Video';
 import { CoveyTownInfo, TownJoinResponse, } from '../../classes/TownsServiceClient';
@@ -28,8 +34,26 @@ interface TownSelectionProps {
   doLogin: (initData: TownJoinResponse) => Promise<boolean>
 }
 
+enum RelationshipStatus {
+  Single = "single",
+  Taken = "taken",
+}
+
+interface User {
+  userID: string,
+  username: string,
+  password: string,
+  isPublic: boolean,
+  email?: string,
+  bio?: string,
+  hobbies?: string,
+  firstName?: string,
+  lastName?: string,
+  dob?: string,
+  relationshipStatus?: RelationshipStatus
+}
+
 export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Element {
-  const [userName, setUserName] = useState<string>(Video.instance()?.userName || '');
   const [newTownName, setNewTownName] = useState<string>('');
   const [newTownIsPublic, setNewTownIsPublic] = useState<boolean>(true);
   const [townIDToJoin, setTownIDToJoin] = useState<string>('');
@@ -37,6 +61,22 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
   const { connect } = useVideoContext();
   const { apiClient } = useCoveyAppState();
   const toast = useToast();
+
+  // registration fields
+  const [userName, setUserName] = useState<string>(Video.instance()?.userName || '');
+  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [isPublic, setIsPublic] = useState<boolean>(false);
+  const [bio, setBio] = useState<string>('');
+  const [hobbies, setHobbies] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [dob, setDob] = useState<string>('');
+  const [relationshipStatus, setRelationshipStatus] = useState<RelationshipStatus>(RelationshipStatus.Single);
+
+  // login fields
+  const [loginEmail, setLoginEmail] = useState<string>('');
+  const [loginPassword, setLoginPassword] = useState<string>('');
 
   const updateTownListings = useCallback(() => {
     // console.log(apiClient);
@@ -141,13 +181,137 @@ export default function TownSelection({ doLogin }: TownSelectionProps): JSX.Elem
       <form>
         <Stack>
           <Box p="4" borderWidth="1px" borderRadius="lg">
-            <Heading as="h2" size="lg">Select a username</Heading>
+            <Heading as="h2" size="lg">Register Or Login</Heading>
+            <FormControl mt={2}>
+              <Accordion allowToggle>
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        Register
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <FormControl isRequired>
+                      <FormLabel htmlFor="userName">Username</FormLabel>
+                      <Input name="userName" placeholder="Username"
+                        value={userName}
+                        onChange={event => setUserName(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl isRequired>
+                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <Input name="password" placeholder="Password"
+                        value={password}
+                        onChange={event => setPassword(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <Input name="email" placeholder="Email"
+                        value={email}
+                        onChange={event => setEmail(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="bio">Biography</FormLabel>
+                      <Input name="bio" placeholder="Biography"
+                        value={bio}
+                        onChange={event => setBio(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="hobbies">Hobbies</FormLabel>
+                      <Input name="hobbies" placeholder="Hobbies"
+                        value={hobbies}
+                        onChange={event => setHobbies(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="firstName">First Name</FormLabel>
+                      <Input name="firstName" placeholder="First Name"
+                        value={firstName}
+                        onChange={event => setFirstName(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="lastName">Last Name</FormLabel>
+                      <Input name="lastName" placeholder="Last Name"
+                        value={lastName}
+                        onChange={event => setLastName(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="dob">Date Of Birth</FormLabel>
+                      <Input name="dob" placeholder="MM/DD/YYYY"
+                        value={dob}
+                        onChange={event => setDob(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="relationshipStatus">Relationship Status</FormLabel>
+                      <Input name="relationshipStatus" placeholder="Change This"
+                        value={relationshipStatus}
+                        onChange={event => setRelationshipStatus(RelationshipStatus.Single)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="isPublic">Made Information Public?</FormLabel>
+                      <Input name="isPublic" placeholder="No"
+                        value="no"
+                        onChange={event => setIsPublic(false)}
+                      />
+                    </FormControl>
+                    <Button mt={2} data-testid="registerUser" onClick={() => console.log("Register")}>Register</Button>
+                  </AccordionPanel>
+                </AccordionItem>
 
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        Login
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <FormControl>
+                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <Input name="email" placeholder="Email Address"
+                        value={loginEmail}
+                        onChange={event => setLoginEmail(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <Input name="password" placeholder="Password"
+                        value={loginPassword}
+                        onChange={event => setLoginPassword(event.target.value)}
+                      />
+                    </FormControl>
+                    <Button mt={2} data-testid="loginUser" onClick={() => console.log("Login")}>Login</Button>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            </FormControl>
+          </Box>
+          <Box p="4" borderWidth="1px" borderRadius="lg">
+            <Heading as="h2" size="lg">Your User Profile</Heading>
             <FormControl>
-              <FormLabel htmlFor="name">Name</FormLabel>
               <Input autoFocus name="name" placeholder="Your name"
                 value={userName}
-                onChange={event => setUserName(event.target.value)}
+                disabled
+              />
+              <Input autoFocus name="name" placeholder="Your name"
+                value={password}
+                disabled
+              />
+              <Input autoFocus name="name" placeholder="Your name"
+                value={email}
+                disabled
               />
             </FormControl>
           </Box>
