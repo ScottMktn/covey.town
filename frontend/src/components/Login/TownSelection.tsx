@@ -200,7 +200,6 @@ const TownSelection = ({ doLogin, test }: TownSelectionProps): JSX.Element => {
 
   useEffect(() => {
     if (user) {
-      console.log(hasuraUrl, secret)
       if (hasuraUrl === undefined || secret === undefined) {
         return;
       }
