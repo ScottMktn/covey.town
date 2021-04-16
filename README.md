@@ -9,6 +9,8 @@ Netlify - https://xenodochial-nightingale-f7c426.netlify.app/
 
 Github - https://github.com/ScottMktn/covey.town
 
+## Covey Town Architecture Diagram
+
 ![Covey.Town Architecture](docs/covey-town-architecture.png)
 
 The figure above depicts the high-level architecture of Covey.Town.
