@@ -52,7 +52,12 @@ The backend will automatically restart if you change any of the files in the `se
 
 ### Configuring the frontend
 
-Create a `.env` file in the `frontend` directory, with the line: `REACT_APP_TOWNS_SERVICE_URL=http://localhost:8081` (if you deploy the rooms/towns service to another location, put that location here instead)
+Create a `.env` file in the `frontend` directory, setting the values as follows: 
+| Config Value                     | Description                                         |
+| ---------------------------------| --------------------------------------------------- |
+| `REACT_APP_TOWNS_SERVICE_URL`    | http://localhost:8081 or (if you deploy the rooms/towns service to another location, put that location here instead)           |
+| `REACT_APP_HASURA_SECRET`        | Visible in your Hasura application config.             |
+| `REACT_APP_HASURA_USER`          | REST endpoint of Hasura available on the dashboard.             |
 
 ### Running the frontend
 
